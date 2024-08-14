@@ -1,0 +1,129 @@
+<p-toast [style]="{ width: '300px' }" [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'100ms'"
+  [hideTransitionOptions]="'100ms'" [showTransformOptions]="'translateX(100%)'" />
+<div class="container my-5  border bg-body-secondary  rounded-1">
+  <form [formGroup]="updateForm" (ngSubmit)="updateUserInformation($event)">
+    <div class="row jumbotron box8 p-2">
+      <div class="col-sm-12 mx-t3 mb-4">
+        <h2 class="text-center text-info">My Info</h2>
+        @if(errorMessage){
+        <div class="bg-danger w-50 rounded-5 mx-auto p-3">
+          {{errorMessage}}
+        </div>
+        }
+      </div>
+      <div class="col-sm-6 form-floating mb-3">
+        <input type="text" class="form-control"
+          [ngClass]="{'is-invalid': nameControl.invalid && nameControl.touched, 'is-valid': nameControl.valid && nameControl.touched}"
+          id="name" placeholder="Full Name" formControlName="name">
+        <label for="name" class="ms-3 text-secondary">Full Name</label>
+        @if(nameControl.errors && nameControl.touched){
+        <div class="invalid-feedback">
+          @if(nameControl.errors['required']){
+          <div>
+            required
+          </div>
+          }
+        </div>
+        }
+      </div>
+      <div class="col-sm-6 form-floating mb-3">
+        <input type="tel" class="form-control"
+          [ngClass]="{'is-invalid': phoneControl.invalid && phoneControl.touched, 'is-valid': phoneControl.valid && phoneControl.touched}"
+          id="" placeholder="phone" formControlName="phone">
+        <label for="phone" class="ms-3 text-secondary">phone</label>
+        @if(phoneControl.errors && phoneControl.touched){
+
+        @if(phoneControl.errors['min']){
+        <div class="invalid-feedback">
+          <div>
+            Minimum age is 16
+          </div>
+        </div>
+        }
+        @if(phoneControl.errors['max']){
+        <div class="invalid-feedback">
+          <div>
+            Maximum age is 100
+          </div>
+        </div>
+        }
+        }
+      </div>
+
+      <div class="col-sm-12 form-floating mb-3">
+        <input type="text" class="form-control"
+          [ngClass]="{'is-invalid': detailsControl.invalid && detailsControl.touched, 'is-valid': detailsControl.valid && detailsControl.touched}"
+          id="detailsControl" placeholder="detailsControl" formControlName="details">
+        <label for="detailsControl" class="ms-3 text-secondary">Detail</label>
+        @if(detailsControl.errors && detailsControl.touched){
+
+        @if(detailsControl.errors['requied']){
+        <div class="invalid-feedback">
+          <div>
+            required
+          </div>
+        </div>
+        }
+        }
+      </div>
+      <div class="col-sm-12 form-floating mb-3">
+        <input type="text" class="form-control"
+          [ngClass]="{'is-invalid': cityControl.invalid && cityControl.touched, 'is-valid': cityControl.valid && cityControl.touched}"
+          id="cityControl" placeholder="cityControl" formControlName="city">
+        <label for="cityControl" class="ms-3 text-secondary">city</label>
+        @if(cityControl.errors && cityControl.touched){
+
+        @if(cityControl.errors['requied']){
+        <div class="invalid-feedback">
+          <div>
+            required
+          </div>
+        </div>
+        }
+        }
+      </div>
+
+
+      <div class="col-sm-12 form-group mt-4">
+        <button class="btn  btn-outline-primary float-right d-block mx-auto mb-5 w-50" [disabled]="isLoading">
+          @if(isLoading){
+          <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+          }
+          Update Profile
+        </button>
+      </div>
+    </div>
+      
+  </form>
+</div>
+<h2 class="text-center my-1">My Address</h2>
+<div class="container mt-5">
+  <div class="table-responsive overflow-x-auto">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Details</th>
+          <th scope="col">Phone</th>
+          <th scope="col">City</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(userAddress){
+        @for (item of userAddress; track $index) {
+        <tr>
+          <td>{{item.name}}</td>
+          <td>{{item.details}}</td>
+          <td>{{item.phone}}</td>
+          <td>{{item.city}}</td>
+          <td class="text-center">
+            <i class="fa-solid fa-trash text-danger" (click)="removeUserAddress(item._id)"></i>
+          </td>
+        </tr>
+        }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
