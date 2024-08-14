@@ -1,40 +1,27 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-import { jwtDecode } from 'jwt-decode';
-import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  isBrowser: boolean;
-  token: any = ''
-  userID: any = ''
   private cartNumber = new BehaviorSubject<number>(0);
   numberofCart = this.cartNumber.asObservable();
   changeCart(data: number) {
     this.cartNumber.next(data);
   }
+  _httpClient = inject(HttpClient)
+  private token = localStorage.getItem('token')
+
   constructor(@Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId)
     if (this.isBrowser) {
       const token = localStorage.getItem('token')
-      if (token) {
-        this.initToken();
-      }
+
     }
   }
 
-  private initToken() {
-    if (this.isBrowser) {
-      this.token = localStorage.getItem('token');
-      const decodedToken: any = jwtDecode(this.token);
-      this.userID = decodedToken.id;
-    }
-  }
-  _httpClient = inject(HttpClient)
 
   addToCart(productId: string): Observable<any> {
     const headers = new HttpHeaders({
