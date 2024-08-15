@@ -18,9 +18,8 @@ export class TokenService {
   constructor(@Inject(PLATFORM_ID) private platformId: object, private router: Router) {
     this.isBrowser = isPlatformBrowser(platformId);
     if (this.isBrowser) {
-      const storedToken = localStorage.getItem('token');
-      if (storedToken) {
-        this.token = storedToken
+      this.token = localStorage.getItem('token');
+      if (this.token) {
         this.changeToken(this.token);
       }
     }
@@ -36,6 +35,14 @@ export class TokenService {
       }
     } else {
       this.decode.next({});
+    }
+  }
+  fetchTokenAgain() {
+    if (this.isBrowser) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.changeToken(token);
+      }
     }
   }
 }

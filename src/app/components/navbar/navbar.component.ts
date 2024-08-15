@@ -42,11 +42,21 @@ export class NavbarComponent implements OnInit {
     this.getUserInformation()
     this.getWishList()
     this.getCart()
+    this.subscribeToTokenChanges()
     this._wishListService.numberofWish.subscribe((number) => {
       this.wishListNumber = number;
     });
     this._cartService.numberofCart.subscribe((number) => {
       this.cartNumber = number;
+    });
+  }
+  subscribeToTokenChanges() {
+    this._tokenService.myToken$.subscribe(token => {
+      if (token) {
+        this.getUserInformation()
+      } else {
+        this.userInformation = null
+      }
     });
   }
   getWishList() {
@@ -105,7 +115,7 @@ export class NavbarComponent implements OnInit {
     this._tokenService.decode$.subscribe({
       next: (res) => {
         console.log(res.user);
-        this.userInformation = res
+        this.userInformation = res.user
       }, error: (err) => {
         console.log(err);
       }
