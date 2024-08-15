@@ -50,15 +50,7 @@ export class NavbarComponent implements OnInit {
       this.cartNumber = number;
     });
   }
-  subscribeToTokenChanges() {
-    this._tokenService.myToken$.subscribe(token => {
-      if (token) {
-        this.getUserInformation()
-      } else {
-        this.userInformation = null
-      }
-    });
-  }
+
   getWishList() {
     this._productsService.getProductsRoute().subscribe({
       next: (productsResponse) => {
@@ -120,6 +112,15 @@ export class NavbarComponent implements OnInit {
         console.log(err);
       }
     })
+  }
+  subscribeToTokenChanges() {
+    this._tokenService.myToken$.subscribe(token => {
+      if (token) {
+        this.getUserInformation()
+      } else {
+        this.userInformation = null
+      }
+    });
   }
   Logout() {
     this._authService.Logout()
