@@ -114,8 +114,8 @@ export class NavbarComponent implements OnInit {
   getUserInformation() {
     this._tokenService.decode$.subscribe({
       next: (res) => {
-        console.log(res.user);
-        this.userInformation = res.user
+        console.log('token decoded', res);
+        this.userInformation = res
       }, error: (err) => {
         console.log(err);
       }
