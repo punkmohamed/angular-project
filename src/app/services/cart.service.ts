@@ -1,18 +1,22 @@
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+  isBrowser: boolean;
+  token: any
+  userID: any = ''
+
   private cartNumber = new BehaviorSubject<number>(0);
   numberofCart = this.cartNumber.asObservable();
   changeCart(data: number) {
     this.cartNumber.next(data);
   }
   _httpClient = inject(HttpClient)
-  private token = localStorage.getItem('token')
 
   constructor(@Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId)

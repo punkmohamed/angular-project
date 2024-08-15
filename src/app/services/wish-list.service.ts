@@ -10,7 +10,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class WishListService {
   isBrowser: boolean;
-
+  token: any
   userID: any = ''
 
   private wishlistNumber = new BehaviorSubject<number>(0);
@@ -18,13 +18,11 @@ export class WishListService {
   changeWish(data: number) {
     this.wishlistNumber.next(data);
   }
-  private token = localStorage.getItem('token')
 
   constructor(@Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId)
     if (this.isBrowser) {
-      const token = localStorage.getItem('token')
-
+      this.token = localStorage.getItem('token')
     }
   }
 
