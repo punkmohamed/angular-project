@@ -21,7 +21,7 @@ export class CartService {
   constructor(@Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId)
     if (this.isBrowser) {
-      const token = localStorage.getItem('token')
+      this.token = localStorage.getItem('token')
 
     }
   }
